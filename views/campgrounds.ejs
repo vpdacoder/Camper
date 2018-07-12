@@ -1,4 +1,5 @@
 <% include partials/header %>
+
   <div class="container">
     <header class="jumbotron">
       <div class="container">
@@ -23,10 +24,10 @@
 
     <div class="row">
       <% campgrounds.forEach((campground)=>{ %>
-        <div class="col-md-3 col-sm-6" style="display: flex; flex-wrap: wrap; margin-bottom: 1em;">
+        <div class="col-lg-3 col-md-4 col-sm-6" style="display: flex; flex-wrap: wrap; margin-bottom: 1em;">
           <div class="card" style="width: 18rem;">
             <img src="<%= campground.image %>" style="height: 15rem;">
-              <div class="card-title" >
+              <div class="card-body" >
                 <h4><%= campground.name %></h4>
                 <a href="#" class="btn btn-primary">Go somewhere</a>
               </div>
