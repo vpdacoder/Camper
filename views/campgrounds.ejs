@@ -1,12 +1,38 @@
 <% include partials/header %>
-<h1>campgrounds</h1>
+  <div class="container">
+    <header class="jumbotron">
+      <div class="container">
 
-<% campgrounds.forEach((campground)=>{ %>
-  <div>
-  <h4><%= campground.name %></h4>
-  <img src="<%= campground.image %>">
+        <h1>Welcome to Camper!</h1>
+        <p>View our campgrounds</p>
+        <p>
+          <a href="/campgrounds/new" class="btn btn-primary btn-lg">Add New Campground</a>
+        </p>
+      </div>
+    </header>
+
+
+    <%# <div class="card" style="width: 18rem; height:10em;">
+      <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div> %>
+
+    <div class="row">
+      <% campgrounds.forEach((campground)=>{ %>
+        <div class="col-md-3 col-sm-6" style="display: flex; flex-wrap: wrap; margin-bottom: 1em;">
+          <div class="card" style="width: 18rem;">
+            <img src="<%= campground.image %>" style="height: 15rem;">
+              <div class="card-title" >
+                <h4><%= campground.name %></h4>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+            </div>
+        <% }); %>
+
   </div>
-
-<% }) %>
-
-<% include partials/footer %>
+  <% include partials/footer %>
