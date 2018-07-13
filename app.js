@@ -12,11 +12,11 @@ mongoose.connect("mongodb://localhost/camper");
 var campgroundSchema = new mongoose.Schema({
   name: String,
   image: String,
+  description: String,
 });
 
+
 var Campground = mongoose.model("Campground", campgroundSchema);
-
-
 
 
 
@@ -59,6 +59,9 @@ app.get("/campgrounds/new", (req,res)=>{
   res.render("new");
 });
 
+app.get("/campgrounds/:id", (req,res)=>{
+  res.render("show");
+})
 app.listen(3000, (req,res) =>{
   console.log("3000 is the magic port");
 });
