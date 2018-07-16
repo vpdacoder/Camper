@@ -50,9 +50,18 @@ app.get("/campgrounds/new", (req,res)=>{
   res.render("new");
 });
 
-app.get("/campgrounds/:id", (req,res)=>{
-  res.render("show");
-})
+//SHOW ROUTE
+app.get("/campgrounds/:id", function(req,res){
+  Campground.findById(req.params.id, function(err, foundCampground){
+    if(err){
+      res.redirect("/campgrounds");
+    } else {
+      res.render("show", {campground:foundCampground});
+    }
+  })
+});
+
+
 app.listen(3000, (req,res) =>{
   console.log("3000 is the magic port");
 });
