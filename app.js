@@ -2,22 +2,13 @@ var express    = require("express");
     app        = express();
     bodyParser = require('body-parser');
     mongoose   = require('mongoose');
+    Campground = require('./models/campground');
+    seedDB     = require('./seed');
     // request    = require('request');
 
 mongoose.connect("mongodb://localhost/camper");
 
-
-//Schema setup
-
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String,
-});
-
-
-var Campground = mongoose.model("Campground", campgroundSchema);
-
+seedDB();
 
 
 app.use(express.static("public"));
