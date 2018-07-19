@@ -1,0 +1,12 @@
+img.img-fluid {
+  width: 100%;
+}
+
+div.figure-caption {
+  padding: 9px;
+
+}
+
+div.img-thumbnail {
+  margin-bottom: 1em;
+}
