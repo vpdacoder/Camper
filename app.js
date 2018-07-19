@@ -3,6 +3,7 @@ var express    = require("express");
     bodyParser = require('body-parser');
     mongoose   = require('mongoose');
     Campground = require('./models/campground');
+    Comment    = require('./models/comment');
     seedDB     = require('./seed');
     // request    = require('request');
 
@@ -25,7 +26,7 @@ app.get('/campgrounds', (req,res)=>{
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds", {campgrounds:campgrounds});
+      res.render("campgrounds/campgrounds", {campgrounds:campgrounds});
     }
   });
 });
@@ -47,20 +48,52 @@ app.post("/campgrounds", (req,res)=> {
 });
 
 app.get("/campgrounds/new", (req,res)=>{
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 //SHOW ROUTE
 app.get("/campgrounds/:id", function(req,res){
-  Campground.findById(req.params.id, function(err, foundCampground){
+  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
     if(err){
       res.redirect("/campgrounds");
     } else {
-      res.render("show", {campground:foundCampground});
+      res.render("campgrounds/show", {campground:foundCampground});
     }
   })
 });
 
+// ==========================
+// COMMENTS ROUTES
+// ==========================
+
+app.post("/campgrounds/:id/comments", (req,res)=>{
+  Campground.findById(req.params.id, (err, campground)=>{
+    if (err) {
+      console.log(err);
+      res.redirect('/campgrounds');
+    } else {
+      Comment.create(req.body.comment, (err, comment)=>{
+        if(err){
+          console.log(err);
+        } else {
+          campground.comments.push(comment);
+          campground.save()
+          res.redirect("/campgrounds/" + req.params.id);
+        }
+      });
+    }
+  });
+});
+
+app.get("/campgrounds/:id/comments/new", (req,res)=>{
+  Campground.findById(req.params.id, (err, campground)=>{
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/new",{campground:campground});
+    }
+  })
+});
 
 app.listen(3000, (req,res) =>{
   console.log("3000 is the magic port");
