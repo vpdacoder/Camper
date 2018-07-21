@@ -9,10 +9,16 @@
   <body>
 
     <div class="container" style="margin-bottom: 1em;">
-      <nav class="nav nav-pills flex-column flex-sm-row">
-        <a class="flex-sm text-sm-center nav-link" href="/">Camper</a>
-        <a class="flex-sm text-sm-center nav-link" href="/campgrounds">Campgrounds</a>
-        <a class="flex-sm text-sm-center nav-link" href="#">Login</a>
-        <a class="flex-sm text-sm-center nav-link" href="#">Sign-Up</a>
-      </nav>
-    </div>
+    <nav class="nav nav-pills flex-column flex-sm-row">
+      <a class="flex-sm text-sm-center nav-link" href="/">Camper</a>
+      <a class="flex-sm text-sm-center nav-link" href="/campgrounds">Campgrounds</a>
+      <% if(!currentUser) { %>
+        <a class="flex-sm text-sm-center nav-link" href="/login">Login</a>
+        <a class="flex-sm text-sm-center nav-link" href="/register">Sign-Up</a>
+      <% } else { %>
+        <a class="flex-sm text-sm-center nav-link" href="#">LoggedIn as: <%= currentUser.username.toUpperCase() %></a>
+        <a class="flex-sm text-sm-center nav-link" href="/logout">Logout</a>
+      <% } %>
+
+    </nav>
+  </div>
