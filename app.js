@@ -57,9 +57,13 @@ let isLoggedIn = (req,res,next) =>{
 // MAIN ROUTES
 // ==========================
 
+// LANDING PAGE/HOME PAGE ROUTE
+
 app.get("/", (req,res)=>{
   res.render('landing');
 });
+
+// SHOW CAMPGROUNDS
 
 app.get('/campgrounds', (req,res)=>{
   console.log(req.user);
@@ -73,6 +77,13 @@ app.get('/campgrounds', (req,res)=>{
   });
 });
 
+// SHOW NEW CAMPGROUND FORM
+
+app.get("/campgrounds/new", (req,res)=>{
+  res.render("campgrounds/new");
+});
+
+// ADD NEW CAMPGROUND
 
 app.post("/campgrounds", (req,res)=> {
   // create a new campground
@@ -89,11 +100,9 @@ app.post("/campgrounds", (req,res)=> {
   });
 });
 
-app.get("/campgrounds/new", (req,res)=>{
-  res.render("campgrounds/new");
-});
 
-//SHOW ROUTE
+//SHOW ROUTE FOR A PARTICULAR CAMP
+
 app.get("/campgrounds/:id", function(req,res){
   Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
     if(err){
@@ -104,9 +113,11 @@ app.get("/campgrounds/:id", function(req,res){
   })
 });
 
+
 // ==========================
 // COMMENTS ROUTES
 // ==========================
+
 
 app.post("/campgrounds/:id/comments", isLoggedIn, (req,res)=>{
   Campground.findById(req.params.id, (err, campground)=>{
@@ -195,6 +206,12 @@ app.get('/logout', (req,res)=>{
 
 
 
+
+
+
+
+
+// STARTING THE SERVER
 
 app.listen(3000, (req,res) =>{
   console.log("3000 is the magic port");
