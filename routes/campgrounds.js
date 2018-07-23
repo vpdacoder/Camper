@@ -39,12 +39,13 @@ router.post("/", isLoggedIn, (req,res)=> {
   // create a new campground
   var name = req.body.name;
   var image = req.body.image;
+  var description = req.body.description
   var author = {
     id: req.user._id,
     username: req.user.username,
   };
 
-  var newCampground = {name: name,image: image, author: author};
+  var newCampground = {name: name,image: image, description:description, author: author};
 
   Campground.create(newCampground, (err, newCamp) =>{
     if (err) {
@@ -67,5 +68,57 @@ router.get("/:id", function(req,res){
     }
   })
 });
+
+
+// EDIT CAMPGROUND FORM
+router.get('/:id/edit', (req,res)=>{
+  Campground.findById(req.params.id, (err,campground)=>{
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.render('campgrounds/edit',{campground:campground});
+    }
+  })
+});
+
+// UPDATE ROUTE
+router.put('/:id',(req,res)=>{
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err,campground)=>{
+    if(err){
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/campgrounds/'+ req.params.id);
+    }
+  })
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

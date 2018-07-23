@@ -9,6 +9,7 @@ var express                 = require("express");
     User                    = require('./models/user')
     LocalStrategy           = require('passport-local');
     passportLocalMongoose   = require('passport-local-mongoose');
+    methoOverride           =require('method-override');
 
 var commentRoutes           = require('./routes/comment');
     campgroundRoutes        = require('./routes/campgrounds');
@@ -34,10 +35,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methoOverride("_method"));
 
 // ++++++++++++++++
 // MIDDLEWARE
@@ -50,6 +51,7 @@ app.use((req,res,next)=>{
 });
 
 
+// ROUTES
 app.use('/',indexRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
