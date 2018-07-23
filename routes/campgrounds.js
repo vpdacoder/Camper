@@ -3,6 +3,14 @@ var express    = require("express");
     Campground = require('../models/campground');
 
 
+// MIDDLEWARE
+    let isLoggedIn = (req,res,next) =>{
+      if(req.isAuthenticated()){
+        return next();
+      }
+      res.redirect("/login");
+    }
+
 
 
 // SHOW CAMPGROUNDS
@@ -21,17 +29,22 @@ router.get('/', (req,res)=>{
 
 // SHOW NEW CAMPGROUND FORM
 
-router.get("/new", (req,res)=>{
+router.get("/new", isLoggedIn,(req,res)=>{
   res.render("campgrounds/new");
 });
 
-// ADD NEW CAMPGROUND
+// CREATE -- ADD NEW CAMPGROUND
 
-router.post("/", (req,res)=> {
+router.post("/", isLoggedIn, (req,res)=> {
   // create a new campground
   var name = req.body.name;
   var image = req.body.image;
-  var newCampground = {name: name,image: image};
+  var author = {
+    id: req.user._id,
+    username: req.user.username,
+  };
+
+  var newCampground = {name: name,image: image, author: author};
 
   Campground.create(newCampground, (err, newCamp) =>{
     if (err) {
