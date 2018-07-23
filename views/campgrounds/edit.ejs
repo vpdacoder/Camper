@@ -2,7 +2,7 @@
 
 <div class="container" style="width: 50%;">
 
-<h1 style="margin-bottom: 1rem;">Enter a new Campground</h1>
+<h1 style="margin-bottom: 1rem;">Edit <%= campground.name %></h1>
 
 <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="post">
   <div class="form-group row">
@@ -28,7 +28,7 @@
       <button type="submit" class="btn btn-primary">ADD</button>
     </div>
   </div>
-  <a href="/campgrounds" class="btn btn-light btn-sm">Go Back</a>
+  <a href="/campgrounds/<%= campground._id %>" class="btn btn-light btn-sm">Go Back</a>
 </form>
 
 <% include ../partials/footer%>

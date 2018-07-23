@@ -16,7 +16,6 @@ var express    = require("express");
 // SHOW CAMPGROUNDS
 
 router.get('/', (req,res)=>{
-  console.log(req.user);
   // Get all campgrounds from //
   Campground.find({}, (err, campgrounds)=> {
     if (err) {
@@ -39,7 +38,7 @@ router.post("/", isLoggedIn, (req,res)=> {
   // create a new campground
   var name = req.body.name;
   var image = req.body.image;
-  var description = req.body.description
+  var description = req.body.description;
   var author = {
     id: req.user._id,
     username: req.user.username,
@@ -92,29 +91,16 @@ router.put('/:id',(req,res)=>{
   })
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// DESTROY ROUTE
+router.delete('/:id', (req,res)=>{
+  Campground.findByIdAndRemove(req.params.id, (err)=>{
+    if (err) {
+      res.redirect('/campgrounds');
+    } else {
+      res.redirect('/campgrounds')
+    }
+  });
+});
 
 
 
