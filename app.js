@@ -16,7 +16,7 @@ var commentRoutes           = require('./routes/comment');
 
 mongoose.connect("mongodb://localhost/camper");
 
-seedDB();
+// seedDB();
 
 
 // PASSPORT CONFIG
@@ -53,8 +53,6 @@ app.use((req,res,next)=>{
 app.use('/',indexRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
-
-
 
 
 
