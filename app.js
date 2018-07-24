@@ -9,8 +9,9 @@ var express                 = require("express");
     User                    = require('./models/user')
     LocalStrategy           = require('passport-local');
     passportLocalMongoose   = require('passport-local-mongoose');
-    methoOverride           =require('method-override');
-
+    methoOverride           = require('method-override');
+    flash                   = require('connect-flash');
+ 
 var commentRoutes           = require('./routes/comment');
     campgroundRoutes        = require('./routes/campgrounds');
     indexRoutes             = require('./routes/index');
@@ -18,6 +19,7 @@ var commentRoutes           = require('./routes/comment');
 mongoose.connect("mongodb://localhost/camper");
 
 // seedDB();
+
 
 
 // PASSPORT CONFIG
@@ -39,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methoOverride("_method"));
+app.use(flash());
 
 // ++++++++++++++++
 // MIDDLEWARE
@@ -47,6 +50,8 @@ app.use(methoOverride("_method"));
 app.use((req,res,next)=>{
   //whatever is put into res.locals is available inside the templates
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
