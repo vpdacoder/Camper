@@ -21,10 +21,13 @@
             <p class="text-left"> Submitted By - <%= campground.author.username %> </p>
           </div>
           <div class="text-left">
+            <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
+
               <a class="btn btn-outline-warning btn-sm"href="/campgrounds/<%= campground._id %>/edit">Edit</a>
               <form style="display:inline;" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-outline-danger btn-sm">Delete</button>
               </form>
+            <% } %>
           </div>
         </div>
       </div>
