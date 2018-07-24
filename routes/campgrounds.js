@@ -16,7 +16,7 @@ var express    = require("express");
     if (req.isAuthenticated()) {
       Campground.findById(req.params.id, (err,campground)=>{
         if (err) {
-          res.redirect('/campgrounds');
+          res.redirect('back');
         } else {
           // does user own the campground?
           // CAN'T do campground.author.id (mongoose object) === req.user._id because its moogose object and string conflict eventhough they look the same while console.loging

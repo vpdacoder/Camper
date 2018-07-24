@@ -12,6 +12,28 @@ let isLoggedIn = (req,res,next) =>{
 }
 
 
+// AUTHORIZATION
+  let  checkCommentOwnership = (req,res,next)=> {
+    if (req.isAuthenticated()) {
+      Comment.findById(req.params.comment_id, (err,comment)=>{
+        if (err) {
+          res.redirect('back');
+        } else {
+          // does user own the comment?
+          // CAN'T do comment.author.id (mongoose object) === req.user._id because its moogose object and string conflict eventhough they look the same while console.loging
+          if(comment.author.id.equals(req.user._id)) {
+            next();
+          } else {
+            res.redirect("back");
+          }
+        }
+      });
+    } else {
+      res.redirect("back");
+    }
+  }
+
+
 // RENDER NEW COMMENT FORM
 router.get("/new", isLoggedIn, (req,res)=>{
   Campground.findById(req.params.id, (err, campground)=>{
@@ -50,7 +72,7 @@ router.post("/", isLoggedIn, (req,res)=>{
 });
 
 // EDIT COMMENT ROUTE
-router.get("/:comment_id/edit", (req,res) =>{
+router.get("/:comment_id/edit", checkCommentOwnership, (req,res) =>{
   Comment.findById(req.params.comment_id, (err, comment)=>{
     if(err){
       res.redirect('/campgrounds');
@@ -61,7 +83,7 @@ router.get("/:comment_id/edit", (req,res) =>{
 });
 
 // UPDATE Comment
-router.put('/:comment_id', (req,res)=>{
+router.put('/:comment_id', checkCommentOwnership, (req,res)=>{
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err,comment)=>{
     if (err) {
       res.redirect("back");
@@ -72,7 +94,7 @@ router.put('/:comment_id', (req,res)=>{
 });
 
 // DELETE Comment
-router.delete("/:comment_id", (req,res)=>{
+router.delete("/:comment_id", checkCommentOwnership, (req,res)=>{
   Comment.findByIdAndRemove(req.params.comment_id, (err)=>{
     if(err){
       res.redirect("back");
